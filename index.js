@@ -4,7 +4,7 @@ function createEmployeeRecord(array) {
         firstName: array[0],
         familyName: array[1],
         title: array[2],
-        payRate: array[3],
+        payPerHour: array[3],
         timeInEvents: [],
         timeOutEvents: []
     }
@@ -21,11 +21,11 @@ function createEmployeeRecords(employeesArray) {
 }
 
 
-function createTimeInEvent(employee, timestamp) {
-    const timeYM = timestamp.split('-')
+function createTimeInEvent(employee, dateStamp) {
+    const timeYM = dateStamp.split('-')
     const timeDT = timeYM[2].split(' ')
     const newTimeInEvent = {
-        type: 'Time In',
+        type: 'TimeIn',
         hour: timeDT[1],
         date: `${timeYM[0]}-${timeYM[1]}-${timeDT[0]}`
     }
@@ -33,11 +33,11 @@ function createTimeInEvent(employee, timestamp) {
     return employee
 }
 
-function createTimeOutEvent(employee, timestamp) {
-    const timeYM = timestamp.split('-')
+function createTimeOutEvent(employee, dateStamp) {
+    const timeYM = dateStamp.split('-')
     const timeDT = timeYM[2].split(' ')
     const newTimeOutEvent = {
-        type: 'Time In',
+        type: 'TimeOut',
         hour: timeDT[1],
         date: `${timeYM[0]}-${timeYM[1]}-${timeDT[0]}`
     }
@@ -54,7 +54,7 @@ function hoursWorkedOnDate(employee, date) {
 }
 
 function wagesEarnedOnDate(employee, date) {
-    const payDue = hoursWorkedOnDate(employee, date) * employee.payRate
+    const payDue = hoursWorkedOnDate(employee, date) * employee.payPerHour
     return payDue
 }
 
@@ -64,9 +64,9 @@ function allWagesFor(employee) {
     timeInDates = employee.timeInEvents.map( element => element.date )
     //running the wagesEarned funct and appending the result for each day into array
     let totalWages= [];
-    for (n of timeInDates) {
+    for (date of timeInDates) {
         let earn;
-        earn = wagesEarnedOnDate6(employee, n)
+        earn = wagesEarnedOnDate(employee, date)
         //console.log(`${earn} is is how much ${employee} earned on ${n} `)
         totalWages.push(earn)
     } 
